@@ -10,7 +10,7 @@ class ConsultationForm(forms.ModelForm):
         residents = self.cleaned_data.get('residents', ())
         district = self.cleaned_data.get('district', None)
 
-        invalid_residents = [resident for resident in residents if resident.district != district]
+        invalid_residents = [str(resident) for resident in residents if resident.district != district]
         if invalid_residents:
             raise ValidationError(
                 _('Invalid values: %(values)s. Wrong district'),

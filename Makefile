@@ -12,16 +12,16 @@ else
   REBUILD_IMAGES_FOR_TESTS = docker-build
 endif
 
-run: COMPOSE ?= docker-compose 
+run: COMPOSE ?= docker-compose
 run: docker-build
 	$(COMPOSE) up
 
-run-d: COMPOSE ?= docker-compose 
+run-d: COMPOSE ?= docker-compose
 run-d: docker-build
 	$(COMPOSE) up -d
 
 
-mm: COMPOSE ?= docker-compose 
+mm: COMPOSE ?= docker-compose
 mm: docker-build
 	$(COMPOSE) run --name $(CI_COMMIT_SHORT_SHA) web \
 	python3 /landscaping/manage.py makemigrations
@@ -44,7 +44,7 @@ script:
 	$(eval SCRIPT ?= $(shell read -p "Script: " SCRIPT; echo $$SCRIPT))
 	docker exec -it $(LANDSCAPING_CONTAINER) ./manage.py $(SCRIPT)
 
-rm: COMPOSE ?= docker-compose 
+rm: COMPOSE ?= docker-compose
 rm:
 	$(COMPOSE) stop
 	$(COMPOSE) rm -f
