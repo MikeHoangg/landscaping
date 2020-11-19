@@ -1,0 +1,53 @@
+{% load landscaping static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+<body>
+
+<form method="get" action="{% url 'actions_by_season' %}">
+  {{ form.as_p }}
+  <button type="submit">Submit</button>
+</form>
+
+{% with object_list|workers_per_action as seasons %}
+  {% for season, disticts in seasons.items %}
+    <h3>{{ season }}</h3>
+    {% for district, actions in disticts.items %}
+      <ul>
+        <li>
+          <h4>{{ district }}</h4>
+          <table>
+            <thead>
+            <tr>
+              <td>Action</td>
+              <td>Needed workers amount</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for action, workers in actions.items %}
+              <tr>
+                <td>
+                  {{ action }}
+                </td>
+                <td>
+                  {% if workers.min != workers.max %}
+                    {{ workers.min }} - {{ workers.max }}
+                  {% else %}
+                    {{ workers.min }}
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </li>
+      </ul>
+    {% endfor %}
+  {% endfor %}
+{% endwith %}
+</body>
+</html>
